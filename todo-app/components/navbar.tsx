@@ -3,7 +3,9 @@
 import {Navbar,NavbarBrand,NavbarContent,NavbarItem} from "@heroui/navbar";
 import {Link} from '@heroui/link'
 import {Button} from "@heroui/button";
-export default function NavbarComponent({open}:{open:()=>void}){
+import { SetStateAction } from "react";
+import { ModalType } from "@/types";
+export default function NavbarComponent({open,setModalType}:{open:()=>void,setModalType:React.Dispatch<SetStateAction<ModalType>>}){
     return(
         <>
           <Navbar className="block"  isBordered>
@@ -20,8 +22,12 @@ export default function NavbarComponent({open}:{open:()=>void}){
           </Button>
         </NavbarItem>
         <NavbarItem>
-            <Button onPress={open} color="primary">
-                Create task
+            <Button onPress={()=>{
+              setModalType("createList")
+              open()
+
+            }} color="primary">
+                Create List
             </Button>
         </NavbarItem>
       </NavbarContent>

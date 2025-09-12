@@ -8,7 +8,7 @@ export default function RootLayout({children}:{children:React.ReactNode}){
         <head >
             
         </head>
-        <body  className="h-dvh dark text-foreground bg-background" >
+        <body  className="min-h-dvh dark text-foreground bg-background" >
             <Providers>
                 {children}
 

@@ -4,14 +4,22 @@ import {  Input} from "@heroui/input";
 import {Form} from '@heroui/form'
 import { Button } from "@heroui/button";
 import { FormEvent, SetStateAction } from "react";
-import { Todo } from "@/types";
+import { List, ModalType, Task, Todo } from "@/types";
+import { myAction } from "@/app/reducers/listReducer";
+import { onHandleCreateTaskList } from "@/app/lib/onHandleCreateListTask";
 
-export default function ModalComponent({isOpen,onOpenChange,onHandleCreateTask,setTaskList}:{isOpen:boolean,setTaskList:React.Dispatch<SetStateAction<Todo[]>>,onOpenChange:()=>void,onHandleCreateTask:(e:FormEvent<HTMLFormElement>)=>void}){
-    return <Modal backdrop="blur" isOpen={isOpen} onOpenChange={onOpenChange}>
-        <ModalContent>
+export default function ModalComponent({modalType,isOpen,onOpenChange,onHandleCreateTask,addList,addTask}:
+  {modalType:ModalType,
+    isOpen:boolean,onOpenChange:()=>void,
+    onHandleCreateTask:(e:FormEvent<HTMLFormElement>,
+      addList:(list:List)=>void)=>void,
+      addList:(list:List)=>void,addTask:(task:Task)=>void}){
+    return <Modal backdrop="blur" isOpen={isOpen} onOpenChange={(onOpenChange)}>
+        {modalType=='createList'&& <ModalContent>
           {(onClose) => (
             <Form onSubmit={(e)=>{
-                onHandleCreateTask(e,setTaskList)
+              
+                onHandleCreateTask(e,addList)
                 onClose()
 
             }}>
@@ -23,15 +31,44 @@ export default function ModalComponent({isOpen,onOpenChange,onHandleCreateTask,s
                   placeholder="Enter Title"
                   variant="bordered"
                 />
-                <Input
-                name="Content"
+                
+              </ModalBody>
+              <ModalFooter>
+                <Button color="danger" variant="light" onPress={onClose}>
+                  Close
+                </Button>
+                <Button type="submit" color="primary">
+                  Create List
+                </Button>
+              </ModalFooter>
+            </Form>
+          )}
+        </ModalContent>}
+        {modalType=='createTask' &&  <ModalContent>
+          {(onClose) => (
+            <Form onSubmit={(e)=>{
+              
+                onHandleCreateTaskList(e,addTask)
+                onClose()
+
+            }}>
+              <ModalHeader className="flex flex-col gap-1">Create Task</ModalHeader>
+              <ModalBody className="w-full">
+                  <Input className="w-full"
+                 name="title"
+                  label="Title"
+                  placeholder="Enter Title"
+                  variant="bordered"
+                />
+                  <Input className="w-full"
+                 name="content"
                   label="Content"
-                  placeholder="Content"
+                  placeholder="Enter Description"
                   variant="bordered"
                 />
               </ModalBody>
               <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
+                <Button color="danger" variant="shadow" onPress={onClose}>
                   Close
                 </Button>
                 <Button type="submit" color="primary">
@@ -40,6 +77,7 @@ export default function ModalComponent({isOpen,onOpenChange,onHandleCreateTask,s
               </ModalFooter>
             </Form>
           )}
-        </ModalContent>
+        </ModalContent>}
+       
       </Modal>
 }

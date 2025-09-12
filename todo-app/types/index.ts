@@ -9,4 +9,14 @@ export interface Todo{
   content:string,
   checked?:boolean,
   title:string
+}export interface List{
+  id:string  ,
+  title:string
 }
+export interface Task{
+  id:string,
+  title:string,
+  description:string,
+  checked:boolean
+}
+export type ModalType="createTask"|"createList"|null
