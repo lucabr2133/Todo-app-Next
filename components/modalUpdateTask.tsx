@@ -15,6 +15,8 @@ export default function ModalComponentUpdateTask({
   updateTaskAction:(task:Task)=>void
   setOpenTask: React.Dispatch<SetStateAction<Task | null>>;
 }) {
+  if (!task) return; 
+
   return (
     <Modal
       backdrop="blur"
